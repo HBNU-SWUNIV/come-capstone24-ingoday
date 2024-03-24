@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ItemDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public SpriteRenderer itemPrefab = null;
-    private Image copyItemImage;
+    public Image copyItemImage;
 
     public Vector3 normalPos;
     public Transform normalParent;
@@ -16,6 +16,7 @@ public class ItemDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     {
         Debug.Log("0");
         normalParent = this.transform.parent;
+        normalPos = this.transform.position;
     }
 
 
@@ -80,16 +81,16 @@ public class ItemDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     public void SetNromalState()
     {
         this.transform.localPosition = Vector3.zero;
+        normalParent = this.transform.parent;
         normalPos = this.transform.position;
 
-        normalParent = this.transform.parent;
     }
 
 
 
     void Start()
     {
-        normalPos = this.transform.position;
+        //normalPos = this.transform.position;
 
         copyItemImage = GameObject.Find("CopyItemImage").GetComponent<Image>();
 

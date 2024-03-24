@@ -8,6 +8,7 @@ public class ItemCollisionManager : MonoBehaviour
     private InvnetorySlotGroup invnetorySlotGroup;
     private GameObject itemImage;
     private ItemIndex itemIndex;
+    public int itemCount = 1;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -24,7 +25,7 @@ public class ItemCollisionManager : MonoBehaviour
                 if (invnetorySlotGroup.itemSlots[i].gameObject.transform.GetChild(0).gameObject.GetComponent<ItemDrag>().itemPrefab.GetComponent<ItemInfo>().GetItemIndexNumber()
                     == this.GetComponent<ItemInfo>().GetItemIndexNumber())
                 {
-                    invnetorySlotGroup.itemSlots[i].gameObject.transform.GetChild(0).gameObject.GetComponent<ItemCount>().ShowItemCount(1);
+                    invnetorySlotGroup.itemSlots[i].gameObject.transform.GetChild(0).gameObject.GetComponent<ItemCount>().ShowItemCount(itemCount);
 
 
                     addInventory = true;
@@ -48,7 +49,7 @@ public class ItemCollisionManager : MonoBehaviour
             newItemImage.GetComponent<ItemDrag>().SetNromalState();
 
             newItemImage.GetComponent<ItemCount>().SetCountText();
-            newItemImage.GetComponent<ItemCount>().ShowItemCount(0);
+            newItemImage.GetComponent<ItemCount>().ShowItemCount(itemCount);
         }
 
 
