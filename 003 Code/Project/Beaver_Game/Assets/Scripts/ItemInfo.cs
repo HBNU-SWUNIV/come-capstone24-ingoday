@@ -7,6 +7,11 @@ public class ItemInfo : MonoBehaviour
     [SerializeField]
     private int ItemIndexNumber;
 
+    public int GetItemIndexNumber()
+    {
+        return ItemIndexNumber;
+    }
+
     void Start()
     {
         

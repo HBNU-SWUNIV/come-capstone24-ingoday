@@ -13,9 +13,17 @@ public class KeyBoardCommandManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z) || Input.GetMouseButtonDown(1))
         {
-            inventoryObj.SetActive(!inventoryObj.activeSelf);
+            if (inventoryObj.transform.localPosition != Vector3.zero)
+            {
+                inventoryObj.transform.localPosition = Vector3.zero;
+            }
+            else
+            {
+                inventoryObj.transform.localPosition = new Vector3(2000, 0, 0);
+            }
+
         }
     }
 }

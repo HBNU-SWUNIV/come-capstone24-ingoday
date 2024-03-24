@@ -6,9 +6,7 @@ using UnityEngine.UI;
 
 public class ItemDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public bool isItem = false;
-    
-    public SpriteRenderer itemPrefab;
+    public SpriteRenderer itemPrefab = null;
     private Image copyItemImage;
 
     public Vector3 normalPos;
@@ -17,14 +15,7 @@ public class ItemDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("0");
-        if (isItem)
-        {
-            normalParent = this.transform.parent;
-
-            
-            
-        }
-
+        normalParent = this.transform.parent;
     }
 
 
@@ -78,6 +69,23 @@ public class ItemDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         this.transform.SetParent(normalParent);
     }
 
+    public void SetSpriteRender(SpriteRenderer prefabSprite)
+    {
+        itemPrefab = prefabSprite;
+        Debug.Log(itemPrefab);
+        this.GetComponent<Image>().sprite = itemPrefab.sprite;
+        this.GetComponent<Image>().color = itemPrefab.color;
+    }
+
+    public void SetNromalState()
+    {
+        this.transform.localPosition = Vector3.zero;
+        normalPos = this.transform.position;
+
+        normalParent = this.transform.parent;
+    }
+
+
 
     void Start()
     {
@@ -88,9 +96,7 @@ public class ItemDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         // 테스트용
         if (itemPrefab != null)
         {
-            isItem = true;
-            this.GetComponent<Image>().sprite = itemPrefab.sprite;
-            this.GetComponent<Image>().color = itemPrefab.color;
+            SetSpriteRender(itemPrefab);
 
         }
     }

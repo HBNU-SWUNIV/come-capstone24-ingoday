@@ -5,10 +5,8 @@ using UnityEngine;
 public class GetResourceManager : MonoBehaviour
 {
     public ItemIndex itemIndex;
-
     private int getResourceNum = 0;
     private Transform resourceItemPos;
-    private bool getRecourceActiveOn = false;
 
     public void GetResourceActive(int resourceNum, Transform resourceDropPos)
     {
@@ -27,8 +25,15 @@ public class GetResourceManager : MonoBehaviour
             default:
                 break;
         }
-        getRecourceActiveOn = true;
 
+    }
+
+    public void OnClickButtonInGetResource()
+    {
+        GameObject newResource = Instantiate(itemIndex.items[getResourceNum].gameObject);
+        newResource.transform.position = resourceItemPos.position;
+
+        this.gameObject.SetActive(false);
     }
 
     void Start()
@@ -38,16 +43,6 @@ public class GetResourceManager : MonoBehaviour
 
     void Update()
     {
-        if (getRecourceActiveOn && Input.GetKeyDown(KeyCode.Space))
-        {
-            getRecourceActiveOn = false;
-
-            GameObject newResource = Instantiate(itemIndex.items[getResourceNum].gameObject);
-            newResource.transform.position = resourceItemPos.position;
-
-
-
-            this.gameObject.SetActive(false);
-        }
+        
     }
 }
