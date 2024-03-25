@@ -11,7 +11,6 @@ public class PutDownItem : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("00000000");
         GameObject newResource = Instantiate(eventData.pointerDrag.GetComponent<ItemDrag>().itemPrefab.gameObject);
         newResource.transform.position = playerPos.position + Vector3.down * 2;
         newResource.GetComponent<ItemCollisionManager>().itemCount = eventData.pointerDrag.GetComponent<ItemCount>().count;
