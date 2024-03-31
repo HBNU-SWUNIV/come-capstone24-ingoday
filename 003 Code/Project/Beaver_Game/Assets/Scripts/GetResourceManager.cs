@@ -12,6 +12,7 @@ public class GetResourceManager : MonoBehaviour
     {
         getResourceNum = resourceNum;
         resourceItemPos = resourceDropPos;
+        /*
         switch (resourceNum)
         {
             case 0:
@@ -25,7 +26,7 @@ public class GetResourceManager : MonoBehaviour
             default:
                 break;
         }
-
+        */
     }
 
     public void OnClickButtonInGetResource()
@@ -33,7 +34,7 @@ public class GetResourceManager : MonoBehaviour
         GameObject newResource = Instantiate(itemIndex.items[getResourceNum].gameObject);
         newResource.transform.position = resourceItemPos.position;
 
-        this.gameObject.SetActive(false);
+        this.gameObject.transform.localPosition = new Vector3(-2000, 0, 0);
     }
 
     void Start()

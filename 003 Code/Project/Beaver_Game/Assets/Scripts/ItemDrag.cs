@@ -12,6 +12,8 @@ public class ItemDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     public Vector3 normalPos;
     public Transform normalParent;
 
+    public int itemIndexNumber;
+
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("0");
@@ -76,6 +78,7 @@ public class ItemDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         Debug.Log(itemPrefab);
         this.GetComponent<Image>().sprite = itemPrefab.sprite;
         this.GetComponent<Image>().color = itemPrefab.color;
+        itemIndexNumber = itemPrefab.gameObject.GetComponent<ItemInfo>().GetItemIndexNumber();
     }
 
     public void SetNromalState()

@@ -15,7 +15,7 @@ public class InMapAction : MonoBehaviour
 
     private Transform ResourcePos;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision) // 버튼 활성화
     {
         if (collision.gameObject.transform.tag == "Forest" || collision.gameObject.transform.tag == "Mud" || collision.gameObject.transform.tag == "Stone" ||
             collision.gameObject.transform.tag == "Dump" || collision.gameObject.transform.tag == "Storage" || collision.gameObject.transform.tag == "Dam")
@@ -62,30 +62,30 @@ public class InMapAction : MonoBehaviour
         switch (tagName)
         {
             case "Forest":
-                PlayerResourceManager.PlayerResourceCountChange(0, 1);
-                getResourceManager.gameObject.SetActive(true);
+                //getResourceManager.gameObject.SetActive(true);
                 getResourceManager.GetResourceActive(1, ResourcePos);
+                getResourceManager.gameObject.transform.localPosition = Vector3.zero;
                 break;
             case "Mud":
-                PlayerResourceManager.PlayerResourceCountChange(1, 1);
-                getResourceManager.gameObject.SetActive(true);
+                //getResourceManager.gameObject.SetActive(true);
                 getResourceManager.GetResourceActive(0, ResourcePos);
+                getResourceManager.gameObject.transform.localPosition = Vector3.zero;
                 break;
             case "Dump":
-                PlayerResourceManager.PlayerResourceCountChange(2, 1);
-                getResourceManager.gameObject.SetActive(true);
+                //getResourceManager.gameObject.SetActive(true);
                 getResourceManager.GetResourceActive(3, ResourcePos);
+                getResourceManager.gameObject.transform.localPosition = Vector3.zero;
                 break;
             case "Stone":
-                PlayerResourceManager.PlayerResourceCountChange(2, 1);
-                getResourceManager.gameObject.SetActive(true);
+                //getResourceManager.gameObject.SetActive(true);
                 getResourceManager.GetResourceActive(2, ResourcePos);
+                getResourceManager.gameObject.transform.localPosition = Vector3.zero;
                 break;
             case "Storage":
                 PlayerResourceManager.StoreResource();
                 break;
             case "Dam":
-                damGameObject.GetComponent<DamManager>().DamCreate(gameObject.GetComponent<PlayerResourceManager>());
+                damGameObject.GetComponent<DamManager>().DamCreate();
                 break;
             default:
                 break;

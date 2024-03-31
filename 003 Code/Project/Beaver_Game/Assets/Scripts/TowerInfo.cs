@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TowerInfo : MonoBehaviour
 {
-    public int[] requiredResourceOfTowers = new int[3];
+    public int[] requiredResourceOfTowers = new int[4];
 
     void Start()
     {

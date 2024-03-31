@@ -9,7 +9,7 @@ public class ResourceManager : MonoBehaviour
     public int[] resourceCountInts = new int[4] {0, 0, 0, 0};
 
 
-    public void StorageResourceCountChange(int resource1Variation, int resource2Variation, int resource3Variation)
+    public void StorageResourceCountChange(int resource1Variation, int resource2Variation, int resource3Variation, int resource4Variation)
     {
         if (resourceCountInts[0] + resource1Variation >= 0 && resourceCountInts[1] + resource2Variation >= 0 && resourceCountInts[2] + resource3Variation >= 0)
         {

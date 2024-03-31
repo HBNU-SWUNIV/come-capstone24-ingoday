@@ -5,18 +5,19 @@ using UnityEngine;
 
 public class DamManager : MonoBehaviour
 {
-    public int[] requiredResources = new int[3]; // 0: ³ª¹«, 1: ÁøÈë, 2: °­Ã¶
+    public int[] requiredResources = new int[4]; // 0: ³ª¹«, 1: ÁøÈë, 2: µ¹, 3: °­Ã¶
     public ResourceManager resourceManager;
+    public InvnetorySlotGroup invnetorySlotGroup;
 
 
-
-    public void DamCreate(PlayerResourceManager playerResource)
+    public void DamCreate()
     {
         bool damCreateBool = true;
+        invnetorySlotGroup.PlayerResourceCount();
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
-            if (requiredResources[i] > playerResource.playerResourceCountInts[i] + resourceManager.resourceCountInts[i])
+            if (requiredResources[i] > invnetorySlotGroup.playerResourceCountInts[i] + resourceManager.resourceCountInts[i])
             {
                 damCreateBool = false;
                 break;
@@ -25,20 +26,19 @@ public class DamManager : MonoBehaviour
 
         if (damCreateBool)
         {
-            int[] remainNum = new int[3] {0, 0, 0};
+            int[] remainNum = new int[4] {0, 0, 0, 0};
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
-                remainNum[i] = 0;
-                if (requiredResources[i] > playerResource.playerResourceCountInts[i])
+                if (requiredResources[i] > invnetorySlotGroup.playerResourceCountInts[i])
                 {
-                    remainNum[i] = requiredResources[i] - playerResource.playerResourceCountInts[i];
+                    remainNum[i] = requiredResources[i] - invnetorySlotGroup.playerResourceCountInts[i];
                 }
 
-                playerResource.PlayerResourceCountChange(i, -requiredResources[i] + remainNum[i]);
+                invnetorySlotGroup.UseItem(i, -requiredResources[i] + remainNum[i]);
                 requiredResources[i] = 0;
             }
-            resourceManager.StorageResourceCountChange(-remainNum[0], -remainNum[1], -remainNum[2]);
+            resourceManager.StorageResourceCountChange(-remainNum[0], -remainNum[1], -remainNum[2], -remainNum[3]);
 
             
             Color damColor =  gameObject.GetComponent<SpriteRenderer>().color;
