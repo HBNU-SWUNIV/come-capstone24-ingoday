@@ -8,12 +8,14 @@ using UnityEngine.UI;
 public class InMapAction : MonoBehaviour
 {
     public GetResourceManager getResourceManager;
-    PlayerResourceManager PlayerResourceManager;
     public Button actionButtonImage;
     private string tagName = "";
     private GameObject damGameObject = null;
-
+    
     private Transform ResourcePos;
+
+    public InventorySlotGroup storageSlotGroup;
+
 
     private void OnTriggerEnter2D(Collider2D collision) // 버튼 활성화
     {
@@ -62,27 +64,24 @@ public class InMapAction : MonoBehaviour
         switch (tagName)
         {
             case "Forest":
-                //getResourceManager.gameObject.SetActive(true);
                 getResourceManager.GetResourceActive(1, ResourcePos);
                 getResourceManager.gameObject.transform.localPosition = Vector3.zero;
                 break;
             case "Mud":
-                //getResourceManager.gameObject.SetActive(true);
                 getResourceManager.GetResourceActive(0, ResourcePos);
                 getResourceManager.gameObject.transform.localPosition = Vector3.zero;
                 break;
             case "Dump":
-                //getResourceManager.gameObject.SetActive(true);
                 getResourceManager.GetResourceActive(3, ResourcePos);
                 getResourceManager.gameObject.transform.localPosition = Vector3.zero;
                 break;
             case "Stone":
-                //getResourceManager.gameObject.SetActive(true);
                 getResourceManager.GetResourceActive(2, ResourcePos);
                 getResourceManager.gameObject.transform.localPosition = Vector3.zero;
                 break;
             case "Storage":
-                PlayerResourceManager.StoreResource();
+                storageSlotGroup.gameObject.transform.parent.localPosition = Vector3.zero;  // 나중에 인벤, 장비칸, 창고칸 움직임을 invntoryObj에 스크립트 만들어서 따로 모아서 관리하도록
+                storageSlotGroup.gameObject.transform.localPosition = new Vector3(-350.0f, 0.0f, 0.0f);
                 break;
             case "Dam":
                 damGameObject.GetComponent<DamManager>().DamCreate();
@@ -96,7 +95,7 @@ public class InMapAction : MonoBehaviour
 
     void Start()
     {
-        PlayerResourceManager = gameObject.GetComponent<PlayerResourceManager>();
+
     }
 
     void Update()

@@ -7,7 +7,16 @@ public class ItemCount : MonoBehaviour
 {
     public int count;
     private TMP_Text countText;
+    
 
+    public int ItemCountHalf()
+    {
+        if (count <= 1)
+            return 0;
+        int temp = count - count / 2;
+        ShowItemCount(-temp);
+        return temp;
+    }
 
     public void ShowItemCount(int addCount)
     {

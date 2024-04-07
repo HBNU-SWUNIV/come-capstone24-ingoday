@@ -13,7 +13,7 @@ public class KeyBoardCommandManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z) || Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             if (inventoryObj.transform.localPosition != Vector3.zero)
             {

@@ -8,7 +8,33 @@ public class TimerManager : MonoBehaviour
     [SerializeField]
     private float Timer = 60.0f * 15;
     private TMP_Text timerText;
+    private float timeSpeed = 1;
+    private bool basicTimeSpeedBool = true;
+    private float timeSpeedRecoverTimer = 20.0f;
+    private TowerInfo nowTower;
 
+
+    public void SetTimeSpeedRecoverTimer(float towerTime)
+    {
+        timeSpeedRecoverTimer = towerTime;
+    }
+
+    public void RadioComunicationTime(float speed, TowerInfo tower)
+    {
+        timeSpeed = speed;
+        if (timeSpeed != 1.0f)
+        {
+            nowTower = tower;
+            basicTimeSpeedBool = false;
+            timeSpeedRecoverTimer = tower.remainComunicationTime;
+        }
+        else
+        {
+            basicTimeSpeedBool = true;
+            tower.remainComunicationTime = timeSpeedRecoverTimer;
+        }
+        
+    }
 
     public void TowerTime(float addTime)
     {
@@ -31,8 +57,17 @@ public class TimerManager : MonoBehaviour
 
     void Update()
     {
-        Timer -= Time.deltaTime;
+        Timer -= timeSpeed * Time.deltaTime;
         ShowTimer();
+        if (!basicTimeSpeedBool && nowTower.remainComunicationTime >= 0.0f)
+        {
+            Debug.Log(timeSpeedRecoverTimer);
+            timeSpeedRecoverTimer -= Time.deltaTime;
 
+            if (timeSpeedRecoverTimer <= 0.0f)
+            {
+                RadioComunicationTime(1.0f, nowTower);
+            }
+        }
     }
 }

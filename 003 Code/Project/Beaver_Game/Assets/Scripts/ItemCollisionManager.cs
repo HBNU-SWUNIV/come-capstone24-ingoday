@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ItemCollisionManager : MonoBehaviour
 {
-    private InvnetorySlotGroup invnetorySlotGroup;
+    private InventorySlotGroup inventorySlotGroup;
     private GameObject itemImage;
     private ItemIndex itemIndex;
     public int itemCount = 1;
@@ -18,14 +18,14 @@ public class ItemCollisionManager : MonoBehaviour
 
         int emptySlotNum = 0;
         bool addInventory = false;
-        for (int i = invnetorySlotGroup.itemSlots.Count - 1; i >= 0; i--)
+        for (int i = inventorySlotGroup.itemSlots.Count - 1; i >= 0; i--)
         {
-            if (invnetorySlotGroup.itemSlots[i].gameObject.transform.childCount > 0)
+            if (inventorySlotGroup.itemSlots[i].gameObject.transform.childCount > 0)
             {
-                if (invnetorySlotGroup.itemSlots[i].gameObject.transform.GetChild(0).gameObject.GetComponent<ItemDrag>().itemPrefab.GetComponent<ItemInfo>().GetItemIndexNumber()
+                if (inventorySlotGroup.itemSlots[i].gameObject.transform.GetChild(0).gameObject.GetComponent<ItemDrag>().itemPrefab.GetComponent<ItemInfo>().GetItemIndexNumber()
                     == this.GetComponent<ItemInfo>().GetItemIndexNumber())
                 {
-                    invnetorySlotGroup.itemSlots[i].gameObject.transform.GetChild(0).gameObject.GetComponent<ItemCount>().ShowItemCount(itemCount);
+                    inventorySlotGroup.itemSlots[i].gameObject.transform.GetChild(0).gameObject.GetComponent<ItemCount>().ShowItemCount(itemCount);
 
 
                     addInventory = true;
@@ -45,14 +45,14 @@ public class ItemCollisionManager : MonoBehaviour
             newItemImage.GetComponent<ItemDrag>().SetSpriteRender(itemIndex.items[this.gameObject.GetComponent<ItemInfo>().GetItemIndexNumber()].gameObject.GetComponent<SpriteRenderer>());
 
 
-            newItemImage.transform.SetParent(invnetorySlotGroup.itemSlots[emptySlotNum].gameObject.transform);
+            newItemImage.transform.SetParent(inventorySlotGroup.itemSlots[emptySlotNum].gameObject.transform);
             newItemImage.GetComponent<ItemDrag>().SetNromalState();
 
             newItemImage.GetComponent<ItemCount>().SetCountText();
             newItemImage.GetComponent<ItemCount>().ShowItemCount(itemCount);
         }
 
-
+        inventorySlotGroup.NowResourceCount();
 
         Destroy(this.gameObject);
     }
@@ -60,7 +60,7 @@ public class ItemCollisionManager : MonoBehaviour
 
     void Start()
     {
-        invnetorySlotGroup = GameObject.Find("InventorySlots").GetComponent<InvnetorySlotGroup>();
+        inventorySlotGroup = GameObject.Find("InventorySlots").GetComponent<InventorySlotGroup>();
         itemImage = GameObject.Find("ItemImage").gameObject;
         itemIndex = GameObject.Find("ItemManager").GetComponent<ItemIndex>();
     }
