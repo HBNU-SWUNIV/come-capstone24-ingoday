@@ -56,6 +56,18 @@ public class InMapAction : MonoBehaviour
             tagName = "";
             Debug.Log(tagName);
             actionButtonImage.interactable = false;
+
+            if (collision.gameObject.transform.tag == "Dam")
+            {
+                if (this.gameObject.GetComponent<SpyBoolManager>().isSpy())
+                {
+                    damGameObject.GetComponent<DamManager>().obstract = 0.0f;
+                }
+                else
+                {
+                    damGameObject.GetComponent<DamManager>().accelerate = 0.0f;
+                }
+            }
         }
     }
 
@@ -80,11 +92,29 @@ public class InMapAction : MonoBehaviour
                 getResourceManager.gameObject.transform.localPosition = Vector3.zero;
                 break;
             case "Storage":
-                storageSlotGroup.gameObject.transform.parent.localPosition = Vector3.zero;  // 나중에 인벤, 장비칸, 창고칸 움직임을 invntoryObj에 스크립트 만들어서 따로 모아서 관리하도록
+                storageSlotGroup.gameObject.transform.parent.localPosition = Vector3.zero;
                 storageSlotGroup.gameObject.transform.localPosition = new Vector3(-350.0f, 0.0f, 0.0f);
                 break;
             case "Dam":
-                damGameObject.GetComponent<DamManager>().DamCreate();
+                if (!damGameObject.GetComponent<DamManager>().buildComplete)    // 댐 완공 전
+                {
+                    if (damGameObject.GetComponent<DamManager>().buildNow)  // 댐 건설 중
+                    {
+                        if (this.gameObject.GetComponent<SpyBoolManager>().isSpy()) // 스파이라면 댐 건설 방해
+                        {
+                            damGameObject.GetComponent<DamManager>().ObstructBuild();
+                        }
+                        else    // 댐 건설 가속
+                        {
+                            damGameObject.GetComponent<DamManager>().AccelerateBuild();
+                        }
+
+                    }
+                    else    // 댐 건설 시작 전
+                    {
+                        damGameObject.GetComponent<DamManager>().DamCreate();   // 댐 건설 시작
+                    }
+                }
                 break;
             default:
                 break;

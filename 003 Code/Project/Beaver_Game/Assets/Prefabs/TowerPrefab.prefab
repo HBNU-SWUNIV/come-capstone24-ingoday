@@ -147,5 +147,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requiredResourceOfTowers: 01000000010000000100000002000000
-  communicationCompleted: 0
   remainComunicationTime: 20
+  gauge: {fileID: 2209702357865066274, guid: 2d3781beb28285646adeec5db0170080, type: 3}

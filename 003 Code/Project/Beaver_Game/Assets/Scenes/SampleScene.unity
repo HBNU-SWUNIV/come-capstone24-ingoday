@@ -1861,6 +1861,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 291007885}
   m_CullTransparentMesh: 1
+--- !u!1 &296426527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 296426529}
+  - component: {fileID: 296426528}
+  m_Layer: 0
+  m_Name: GameOverManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &296426528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296426527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2d5c65b5a947bf4eb7b65b26b1c72f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damCount: 0
+  towers: {fileID: 0}
+  spyBoolManager: {fileID: 0}
+--- !u!4 &296426529
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296426527}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1167.01, y: 507.96036, z: -3.941397}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &343079263
 GameObject:
   m_ObjectHideFlags: 0
@@ -2218,8 +2265,14 @@ MonoBehaviour:
   totalDamRequiredResource: 20
   inventorySlotGroup: {fileID: 1236311227}
   storageInventorySlotGroup: {fileID: 1455642171}
-  gaugePrefab: {fileID: 4404336394329460103, guid: 6630ca76fd12e4546a752185c885e6c0, type: 3}
+  gaugePrefab: {fileID: 2209702357865066274, guid: 2d3781beb28285646adeec5db0170080, type: 3}
   cnavasGaugesTransform: {fileID: 1344790342}
+  gaugePlusYPos: 0.8
+  buildNow: 0
+  buildComplete: 0
+  obstract: 0
+  accelerate: 0
+  gameWinManager: {fileID: 296426528}
 --- !u!1 &348947826
 GameObject:
   m_ObjectHideFlags: 0
@@ -2423,8 +2476,14 @@ MonoBehaviour:
   totalDamRequiredResource: 20
   inventorySlotGroup: {fileID: 1236311227}
   storageInventorySlotGroup: {fileID: 1455642171}
-  gaugePrefab: {fileID: 4404336394329460103, guid: 6630ca76fd12e4546a752185c885e6c0, type: 3}
+  gaugePrefab: {fileID: 2209702357865066274, guid: 2d3781beb28285646adeec5db0170080, type: 3}
   cnavasGaugesTransform: {fileID: 1344790342}
+  gaugePlusYPos: 0.8
+  buildNow: 0
+  buildComplete: 0
+  obstract: 0
+  accelerate: 0
+  gameWinManager: {fileID: 296426528}
 --- !u!61 &370310975
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3240,6 +3299,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &498504488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 498504489}
+  m_Layer: 0
+  m_Name: Towers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &498504489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498504488}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1167.01, y: 507.96036, z: -3.941397}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &500504612
 GameObject:
@@ -4226,6 +4316,11 @@ MonoBehaviour:
   inventorySlotGroup: {fileID: 1236311227}
   towerInfo: {fileID: 5977772026308164568, guid: a601615b48f6ebc4a9ae5d809f4af9d0, type: 3}
   timerManager: {fileID: 1081463143}
+  buildComunicationButton: {fileID: 1966958881}
+  towerGaugePrefab: {fileID: 2209702357865066274, guid: 2d3781beb28285646adeec5db0170080, type: 3}
+  cnavasGaugesTransform: {fileID: 1344790342}
+  gameWinManager: {fileID: 296426528}
+  towerParentTransfotm: {fileID: 498504489}
   decreaseTime: 30
 --- !u!114 &651121958
 MonoBehaviour:
@@ -4241,7 +4336,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   is_Spy: 0
   buildTowerButton: {fileID: 1966958881}
-  RadioComunicationButton: {fileID: 2090987104}
 --- !u!114 &651121959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5229,8 +5323,14 @@ MonoBehaviour:
   totalDamRequiredResource: 20
   inventorySlotGroup: {fileID: 1236311227}
   storageInventorySlotGroup: {fileID: 1455642171}
-  gaugePrefab: {fileID: 4404336394329460103, guid: 6630ca76fd12e4546a752185c885e6c0, type: 3}
+  gaugePrefab: {fileID: 2209702357865066274, guid: 2d3781beb28285646adeec5db0170080, type: 3}
   cnavasGaugesTransform: {fileID: 1344790342}
+  gaugePlusYPos: 0.8
+  buildNow: 0
+  buildComplete: 0
+  obstract: 0
+  accelerate: 0
+  gameWinManager: {fileID: 296426528}
 --- !u!1 &821175237
 GameObject:
   m_ObjectHideFlags: 0
@@ -5375,11 +5475,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requiredResources: 03000000030000000100000001000000
-  totalDamRequiredResource: 20
+  totalDamRequiredResource: 5
   inventorySlotGroup: {fileID: 1236311227}
   storageInventorySlotGroup: {fileID: 1455642171}
-  gaugePrefab: {fileID: 4404336394329460103, guid: 6630ca76fd12e4546a752185c885e6c0, type: 3}
+  gaugePrefab: {fileID: 2209702357865066274, guid: 2d3781beb28285646adeec5db0170080, type: 3}
   cnavasGaugesTransform: {fileID: 1344790342}
+  gaugePlusYPos: 0.8
+  buildNow: 0
+  buildComplete: 0
+  obstract: 0
+  accelerate: 0
+  gameWinManager: {fileID: 296426528}
 --- !u!1 &825562129
 GameObject:
   m_ObjectHideFlags: 0
@@ -6999,7 +7105,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 540ea3ead2d96e640b9742ec4f980eae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Timer: 900
+  timer: 900
+  gameWinManager: {fileID: 296426528}
 --- !u!1 &1086883247
 GameObject:
   m_ObjectHideFlags: 0
@@ -12200,7 +12307,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 651121957}
         m_TargetAssemblyTypeName: SpyBeaverAction, Assembly-CSharp
-        m_MethodName: BuildTower
+        m_MethodName: OnClickBuildOrRadioComunicationButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12697,8 +12804,14 @@ MonoBehaviour:
   totalDamRequiredResource: 20
   inventorySlotGroup: {fileID: 1236311227}
   storageInventorySlotGroup: {fileID: 1455642171}
-  gaugePrefab: {fileID: 4404336394329460103, guid: 6630ca76fd12e4546a752185c885e6c0, type: 3}
+  gaugePrefab: {fileID: 2209702357865066274, guid: 2d3781beb28285646adeec5db0170080, type: 3}
   cnavasGaugesTransform: {fileID: 1344790342}
+  gaugePlusYPos: 0.8
+  buildNow: 0
+  buildComplete: 0
+  obstract: 0
+  accelerate: 0
+  gameWinManager: {fileID: 296426528}
 --- !u!1 &2083329971
 GameObject:
   m_ObjectHideFlags: 0

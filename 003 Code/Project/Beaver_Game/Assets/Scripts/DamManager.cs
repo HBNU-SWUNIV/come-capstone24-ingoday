@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Resources;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DamManager : MonoBehaviour
 {
@@ -15,7 +16,23 @@ public class DamManager : MonoBehaviour
 
     [SerializeField]
     private float gaugePlusYPos = 0.8f; 
+    public bool buildNow = false;
+    public bool buildComplete = false;
 
+    public float obstract = 0.0f;
+    public float accelerate = 0.0f;
+    public GameWinManager gameWinManager;
+
+
+    public void ObstructBuild() // 댐 건설 방해(스파이 전용)
+    {
+        obstract = -0.015f; // 방해 시 감속 속도
+    }
+
+    public void AccelerateBuild() // 댐 건설 가속(일반 비버 전용)
+    {
+        accelerate = 0.01f; // 가속 시 가속 속도
+    }
 
     public void DamCreate() // 현재 인벤토리 -> 창고 순인데 창고 -> 인벤토리 순으로 변경
     {
@@ -50,27 +67,12 @@ public class DamManager : MonoBehaviour
             storageInventorySlotGroup.NowResourceCount();
 
             inventorySlotGroup.UseResource(remainNum);
-
-            /*
-            for (int i = 0; i < 4; i++)
-            {
-                if (requiredResources[i] > inventorySlotGroup.resourceCountInts[i])
-                {
-                    remainNum[i] = requiredResources[i] - inventorySlotGroup.resourceCountInts[i];
-                }
-
-                inventorySlotGroup.UseItem(i, requiredResources[i] - remainNum[i]);
-                requiredResources[i] = 0;
-            }
-            */
-
-            Color damColor =  gameObject.GetComponent<SpriteRenderer>().color;
-            damColor.a = 150;
-            gameObject.GetComponent<SpriteRenderer>().color = damColor;
-
             inventorySlotGroup.NowResourceCount();
-        }
 
+            buildGauge.SetActive(true);
+            buildNow = true;
+
+        }
     }
 
     void Start()
@@ -91,13 +93,37 @@ public class DamManager : MonoBehaviour
 
 
         buildGauge = Instantiate(gaugePrefab, cnavasGaugesTransform);
+        buildGauge.SetActive(false);
 
     }
 
     void Update()
     {
-        Vector3 gaugePos = Camera.main.WorldToScreenPoint(new Vector3(this.transform.position.x, this.transform.position.y + gaugePlusYPos, 0.0f));
-        buildGauge.transform.position = gaugePos;
+        if (buildNow)
+        {
+            buildGauge.transform.position = Camera.main.WorldToScreenPoint(new Vector3(this.transform.position.x, this.transform.position.y + gaugePlusYPos, 0.0f));
+            buildGauge.transform.GetChild(2).gameObject.GetComponent<Image>().fillAmount += Time.deltaTime * (0.01f + accelerate + obstract); // 100초
+
+            if (buildGauge.transform.GetChild(2).gameObject.GetComponent<Image>().fillAmount >= 1.0f)
+            {
+                buildNow = false;
+                buildComplete = true;
+                buildGauge.SetActive(false);
+
+                Color damColor = gameObject.GetComponent<SpriteRenderer>().color;
+                damColor.a = 150;
+                gameObject.GetComponent<SpriteRenderer>().color = damColor;
+
+                gameWinManager.DamCountCheck();
+            }
+            else if (buildGauge.transform.GetChild(2).gameObject.GetComponent<Image>().fillAmount <= 0.0f)
+            {
+                buildNow = false;
+                buildGauge.SetActive(false);
+            }
+                
+        }
+        
 
     }
 }

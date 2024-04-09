@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimerManager : MonoBehaviour
 {
     [SerializeField]
-    private float Timer = 60.0f * 15;
+    private float timer = 60.0f * 15;
     private TMP_Text timerText;
     private float timeSpeed = 1;
     private bool basicTimeSpeedBool = true;
     private float timeSpeedRecoverTimer = 20.0f;
     private TowerInfo nowTower;
-
+    public GameWinManager gameWinManager;
 
     public void SetTimeSpeedRecoverTimer(float towerTime)
     {
@@ -38,16 +39,16 @@ public class TimerManager : MonoBehaviour
 
     public void TowerTime(float addTime)
     {
-        Timer -= addTime;
+        timer -= addTime;
         ShowTimer();
     }
 
     public void ShowTimer()
     {
-        timerText.text = Mathf.FloorToInt(Timer / 60.0f).ToString() + " : ";
-        if (Timer % 60.0f < 10)
+        timerText.text = Mathf.FloorToInt(timer / 60.0f).ToString() + " : ";
+        if (timer % 60.0f < 10)
             timerText.text += "0";
-        timerText.text += Mathf.FloorToInt(Timer % 60.0f).ToString();
+        timerText.text += Mathf.FloorToInt(timer % 60.0f).ToString();
     }
 
     void Start()
@@ -57,10 +58,20 @@ public class TimerManager : MonoBehaviour
 
     void Update()
     {
-        Timer -= timeSpeed * Time.deltaTime;
+        timer -= timeSpeed * Time.deltaTime;
         ShowTimer();
+
+        if (timer <= 0)
+        {
+            timer = 0.0f;
+            ShowTimer();
+            gameWinManager.TimeCheck();
+        }
+
         if (!basicTimeSpeedBool && nowTower.remainComunicationTime >= 0.0f)
         {
+            nowTower.gauge.transform.GetChild(2).gameObject.GetComponent<Image>().fillAmount = 1 - timeSpeedRecoverTimer / 20.0f; // 이거 점차 올라가도록 하기, 최대가 1.0, 최소 0.0
+
             Debug.Log(timeSpeedRecoverTimer);
             timeSpeedRecoverTimer -= Time.deltaTime;
 
