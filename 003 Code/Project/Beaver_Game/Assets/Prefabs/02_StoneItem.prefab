@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 961981505760832517}
   - component: {fileID: 1539458629246211378}
   m_Layer: 0
-  m_Name: StoneItem
+  m_Name: 02_StoneItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,7 +134,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a16f9cc2048cc6a4a810e75bd8ce6284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemIndexNumber: 2
+  itemIndexNumber: 2
+  itemCategory: 0
+  requiredResourceOfItem: 00000000000000000000000000000000
+  itemName: Stone
+  itemInformation: this item is stone.
 --- !u!114 &1539458629246211378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,3 +151,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 763cada3a0e49304fbdd9c9d7653470f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemCount: 1

@@ -9,6 +9,10 @@ public class ItemSlot : MonoBehaviour, IDropHandler
 {
     public bool storageSlot = false;
     private InventorySlotGroup playerInventory = null;
+    GameObject equipItem = null;
+
+    public int equipSlotType = 0;   // 1: 머리, 2: 손 도구, 3: 다리 등..  itemInfo의 itemCategory와 숫자가 같도록, 0은 아이템 장착 슬롯이 아님을 의미
+
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -17,10 +21,21 @@ public class ItemSlot : MonoBehaviour, IDropHandler
             return;
         }
             
+        if (equipSlotType != 0 && eventData.pointerDrag.GetComponent<ItemDrag>().itemPrefab.GetComponent<ItemInfo>().itemCategory != equipSlotType) // 장착슬롯에는 그에 해당하는 아이템만 들어가도록
+        {
+            return;
+        }
+
 
 
         if (this.transform.childCount > 0)  // 해당 슬롯에 아이템이 있는 경우
         {
+            if (eventData.pointerDrag.GetComponent<ItemDrag>().normalParent.gameObject.GetComponent<ItemSlot>().equipSlotType != 0) // 장착슬롯에서 빼는 아이템은 빈 공간에만 넣도록
+            {
+                return;
+            }
+
+
             if (this.transform.GetChild(0).gameObject.GetComponent<ItemDrag>().itemIndexNumber == eventData.pointerDrag.gameObject.GetComponent<ItemDrag>().itemIndexNumber)    // 드래그한 아이템과 같을 경우
             {
                 this.transform.GetChild(0).gameObject.GetComponent<ItemCount>().ShowItemCount(eventData.pointerDrag.gameObject.GetComponent<ItemCount>().count);    // 슬롯의 아이템 수 변경(드래그한 수 더하기)
@@ -43,8 +58,14 @@ public class ItemSlot : MonoBehaviour, IDropHandler
             }
             
         }
-        else
+        else    // 해당 슬롯에 아이템이 없는 경우
         {
+            if (eventData.pointerDrag.GetComponent<ItemDrag>().normalParent.gameObject.GetComponent<ItemSlot>().equipSlotType != 0) // 장착슬롯에서 빼는 아이템을 캐릭터에서 지우기
+            {
+                Destroy(eventData.pointerDrag.GetComponent<ItemDrag>().normalParent.gameObject.GetComponent<ItemSlot>().equipItem);
+            }
+
+
             if (eventData.pointerDrag.gameObject.GetComponent<ItemDrag>().normalPos == this.transform.position)
             {
                 eventData.pointerDrag.gameObject.GetComponent<ItemCount>().ShowItemCount(eventData.pointerDrag.gameObject.GetComponent<ItemDrag>().keepItemCount);
@@ -55,7 +76,29 @@ public class ItemSlot : MonoBehaviour, IDropHandler
             }
             
         }
+
+
+        if (equipSlotType > 0)  // 장착슬롯에 아이템이 장착된 경우
+        {
+            if (equipItem != null)
+            {
+                Destroy(equipItem);
+            }
+
+            equipItem = Instantiate(eventData.pointerDrag.gameObject.GetComponent<ItemDrag>().itemPrefab.gameObject, this.transform.parent.GetComponent<ItemEquipManager>().player.transform);
+            equipItem.GetComponent<SpriteRenderer>().sortingOrder = 11;
+
+
+            EquipItem();
+        }
+
+
         eventData.pointerDrag.GetComponent<ItemDrag>().dropped = true;
+    }
+
+    public void EquipItem()
+    {
+
     }
 
 

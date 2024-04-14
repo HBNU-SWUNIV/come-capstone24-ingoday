@@ -24,6 +24,10 @@ public class KeyBoardCommandManager : MonoBehaviour
                 inventoryObj.transform.localPosition = new Vector3(2000, 0, 0);
             }
 
+            if (inventoryObj.transform.GetChild(1).localPosition == new Vector3(-350.0f, 0.0f, 0.0f))
+            {
+                inventoryObj.transform.GetChild(1).localPosition = new Vector3(2000.0f, 0.0f, 0.0f);
+            }
         }
     }
 }

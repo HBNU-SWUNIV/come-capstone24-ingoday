@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -2551756123057158358}
   - component: {fileID: 4031222164822958697}
   m_Layer: 0
-  m_Name: SteelItem
+  m_Name: 03_SteelItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,7 +144,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a16f9cc2048cc6a4a810e75bd8ce6284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemIndexNumber: 3
+  itemIndexNumber: 3
+  itemCategory: 0
+  requiredResourceOfItem: 00000000000000000000000000000000
+  itemName: Steel
+  itemInformation: this item is steel.
 --- !u!114 &4031222164822958697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,3 +161,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 763cada3a0e49304fbdd9c9d7653470f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemCount: 1

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class InMapAction : MonoBehaviour
 {
+    public GameObject productionImage;
     public GetResourceManager getResourceManager;
     public Button actionButtonImage;
     private string tagName = "";
@@ -19,8 +20,8 @@ public class InMapAction : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) // 버튼 활성화
     {
-        if (collision.gameObject.transform.tag == "Forest" || collision.gameObject.transform.tag == "Mud" || collision.gameObject.transform.tag == "Stone" ||
-            collision.gameObject.transform.tag == "Dump" || collision.gameObject.transform.tag == "Storage" || collision.gameObject.transform.tag == "Dam")
+        if (collision.gameObject.transform.tag == "Forest" || collision.gameObject.transform.tag == "Mud" || collision.gameObject.transform.tag == "Stone" || collision.gameObject.transform.tag == "Dump" 
+            || collision.gameObject.transform.tag == "Storage" || collision.gameObject.transform.tag == "Dam" || collision.gameObject.tag == "ProductionCenter")
         {
             Color buttonColor = actionButtonImage.GetComponent<Image>().color;
             buttonColor.a = 200;
@@ -46,8 +47,8 @@ public class InMapAction : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.transform.tag == "Mud" || collision.gameObject.transform.tag == "Forest" || collision.gameObject.transform.tag == "Stone" || 
-            collision.gameObject.transform.tag == "Dump" || collision.gameObject.transform.tag == "Storage" || collision.gameObject.transform.tag == "Dam")
+        if (collision.gameObject.transform.tag == "Mud" || collision.gameObject.transform.tag == "Forest" || collision.gameObject.transform.tag == "Stone" || collision.gameObject.transform.tag == "Dump" 
+            || collision.gameObject.transform.tag == "Storage" || collision.gameObject.transform.tag == "Dam" || collision.gameObject.tag == "ProductionCenter")
         {
             Color buttonColor = actionButtonImage.GetComponent<Image>().color;
             buttonColor.a = 100;
@@ -75,20 +76,20 @@ public class InMapAction : MonoBehaviour
     {
         switch (tagName)
         {
-            case "Forest":
-                getResourceManager.GetResourceActive(1, ResourcePos);
-                getResourceManager.gameObject.transform.localPosition = Vector3.zero;
-                break;
             case "Mud":
                 getResourceManager.GetResourceActive(0, ResourcePos);
                 getResourceManager.gameObject.transform.localPosition = Vector3.zero;
                 break;
-            case "Dump":
-                getResourceManager.GetResourceActive(3, ResourcePos);
+            case "Forest":
+                getResourceManager.GetResourceActive(1, ResourcePos);
                 getResourceManager.gameObject.transform.localPosition = Vector3.zero;
                 break;
             case "Stone":
                 getResourceManager.GetResourceActive(2, ResourcePos);
+                getResourceManager.gameObject.transform.localPosition = Vector3.zero;
+                break;
+            case "Dump":
+                getResourceManager.GetResourceActive(3, ResourcePos);
                 getResourceManager.gameObject.transform.localPosition = Vector3.zero;
                 break;
             case "Storage":
@@ -115,6 +116,9 @@ public class InMapAction : MonoBehaviour
                         damGameObject.GetComponent<DamManager>().DamCreate();   // 댐 건설 시작
                     }
                 }
+                break;
+            case "ProductionCenter":
+                productionImage.transform.localPosition = Vector3.zero;
                 break;
             default:
                 break;

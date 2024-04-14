@@ -12,21 +12,6 @@ public class GetResourceManager : MonoBehaviour
     {
         getResourceNum = resourceNum;
         resourceItemPos = resourceDropPos;
-        /*
-        switch (resourceNum)
-        {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            default:
-                break;
-        }
-        */
     }
 
     public void OnClickButtonInGetResource()
