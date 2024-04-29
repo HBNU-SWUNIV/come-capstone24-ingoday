@@ -62,6 +62,9 @@ public class ItemSlot : MonoBehaviour, IDropHandler
         {
             if (eventData.pointerDrag.GetComponent<ItemDrag>().normalParent.gameObject.GetComponent<ItemSlot>().equipSlotType != 0) // 장착슬롯에서 빼는 아이템을 캐릭터에서 지우기
             {
+
+                // 장착되어있던 아이템 효과 지우는 함수 만들기
+
                 Destroy(eventData.pointerDrag.GetComponent<ItemDrag>().normalParent.gameObject.GetComponent<ItemSlot>().equipItem);
             }
 
@@ -80,25 +83,25 @@ public class ItemSlot : MonoBehaviour, IDropHandler
 
         if (equipSlotType > 0)  // 장착슬롯에 아이템이 장착된 경우
         {
-            if (equipItem != null)
+            if (equipItem != null)  // 기존에 같은 카테고리의 장착되어있던 아이템을 제거(캐릭터의 자식으로 만들어진 아이템 오브젝트)
             {
+
+                // 장착되어있던 아이템 효과 지우는 함수 만들기
+
                 Destroy(equipItem);
             }
 
+            // 새로 장착한 아이템을 캐릭터의 자식으로 생성
             equipItem = Instantiate(eventData.pointerDrag.gameObject.GetComponent<ItemDrag>().itemPrefab.gameObject, this.transform.parent.GetComponent<ItemEquipManager>().player.transform);
-            equipItem.GetComponent<SpriteRenderer>().sortingOrder = 11;
+            equipItem.GetComponent<ItemCollisionManager>().enabled = false;
+            equipItem.GetComponent<SpriteRenderer>().sortingOrder = 11; // 캐릭터보다 위에 보이게 하기 위해서 조정(캐릭터는 10)
+            equipItem.layer = 7;    // 장착한 아이템이 인벤토리의 아이템 장착화면에 보이도록 Layer를 7(EquipItem)으로 변경
 
-
-            EquipItem();
         }
 
+        // 장착된 아이템 효과 발동시키는 함수 만들기
 
         eventData.pointerDrag.GetComponent<ItemDrag>().dropped = true;
-    }
-
-    public void EquipItem()
-    {
-
     }
 
 

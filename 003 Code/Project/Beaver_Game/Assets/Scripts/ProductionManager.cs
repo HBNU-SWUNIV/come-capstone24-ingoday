@@ -34,10 +34,11 @@ public class ProductionManager : MonoBehaviour
         if (inventorySlotGroup.RequireResourceCountCheck(itemIndex.items[nowItemNum].requiredResourceOfItem))
         {
             inventorySlotGroup.UseResource(itemIndex.items[nowItemNum].requiredResourceOfItem);
-            GameObject newItem = Instantiate(itemIndex.items[nowItemNum].gameObject);
-            newItem.transform.position = productionCenter.position;
             inventorySlotGroup.NowResourceCount();
             SetSelectedItemmInfo(nowItemNum);
+
+            GameObject newItem = Instantiate(itemIndex.items[nowItemNum].gameObject);
+            newItem.transform.position = productionCenter.position;
         }
     }
 

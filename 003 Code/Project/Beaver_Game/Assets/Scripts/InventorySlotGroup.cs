@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventorySlotGroup : MonoBehaviour
 {
     public List<ItemSlot> itemSlots = new List<ItemSlot>();
     public int[] resourceCountInts = new int[4] { 0, 0, 0, 0 };
     public TMP_Text[] resourceCountTexts = new TMP_Text[4];
+    public Button throwRopeButton = null;
 
     public void ShowResourceText()
     {
@@ -57,29 +59,54 @@ public class InventorySlotGroup : MonoBehaviour
     public void UseItem(int itemIndexNum, int useItemCount) // 하나의 도구를 인벤토리 전체를 살펴서 쓰는 방식
     {
         int remainResourceCount = useItemCount;
+        int ropeIndexNum = 10;  // 만약 루프의 인덱스 넘버가 바뀌면 이 숫자 바꿔주기
+        bool haveRope = false;
+
+        Debug.Log("00000");
 
         for (int i = 0; i < itemSlots.Count; i++)
         {
-            Transform childItemSlot = itemSlots[i].gameObject.transform;
-            if (itemSlots[i].gameObject.transform.childCount != 0 && itemIndexNum == childItemSlot.GetChild(0).gameObject.GetComponent<ItemDrag>().itemPrefab.gameObject.GetComponent<ItemInfo>().GetItemIndexNumber())
+            // 현재 체크하는 슬롯의 아이템이 사용한 아이템일 경우
+            if (itemSlots[i].gameObject.transform.childCount != 0 && itemIndexNum == itemSlots[i].gameObject.transform.GetChild(0).gameObject.GetComponent<ItemDrag>().itemPrefab.gameObject.GetComponent<ItemInfo>().GetItemIndexNumber())
             {
+                GameObject childItem = itemSlots[i].gameObject.transform.GetChild(0).gameObject;
 
-                if (childItemSlot.GetChild(0).gameObject.GetComponent<ItemCount>().count < remainResourceCount)
+                Debug.Log("000");
+
+                if (childItem.GetComponent<ItemCount>().count < remainResourceCount)    // 현재 슬롯의 아이템 수가 사용한 아이템 수보다 적으면
                 {
-                    remainResourceCount -= childItemSlot.GetChild(0).gameObject.GetComponent<ItemCount>().count;
-                    Destroy(childItemSlot.GetChild(0).gameObject);
+                    Debug.Log("111");
+
+                    remainResourceCount -= childItem.GetComponent<ItemCount>().count;
+                    Destroy(childItem);
                 }
-                else
+                else    // 현재 슬롯의 아이템 수가 사용한 아이템 수보다 많거나 같으면
                 {
-                    childItemSlot.GetChild(0).gameObject.GetComponent<ItemCount>().ShowItemCount(-remainResourceCount);
+                    Debug.Log("222");
 
-                    if (childItemSlot.GetChild(0).gameObject.GetComponent<ItemCount>().count <= 0)
+                    childItem.GetComponent<ItemCount>().ShowItemCount(-remainResourceCount);
+                    remainResourceCount = 0;
+
+                    if (childItem.GetComponent<ItemCount>().count <= 0) // 슬롯의 아이템 수가 사용한 아이템 수와 같은 경우에만 인벤토리에서 삭제
                     {
-                        Destroy(childItemSlot.GetChild(0).gameObject);
+                        Debug.Log("333");
+
+                        Destroy(childItem);
                     }
-                    break;
+                    else if (itemIndexNum == ropeIndexNum)
+                    {
+                        Debug.Log("444");
+
+                        haveRope = true;
+                    }
+                    
                 }
             }
+        }
+
+        if (throwRopeButton != null && itemIndexNum == ropeIndexNum && !haveRope)  // 버튼 비활성화
+        {
+            throwRopeButton.gameObject.SetActive(false);
         }
 
     }
