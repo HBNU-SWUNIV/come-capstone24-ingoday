@@ -15,6 +15,7 @@ TagManager:
   - Item
   - Stone
   - ProductionCenter
+  - Map
   layers:
   - Default
   - TransparentFX

@@ -21,6 +21,7 @@ public class RopeCollision : MonoBehaviour
         {
             Debug.Log(collision.gameObject.name);
             collision.gameObject.transform.position = prisonTransform.position;
+            collision.gameObject.GetComponent<PrisonManager>().CaughtByRope();
             inventorySlotGroup.UseItem(ropeIndexNum, 1);  // 로프의 아이템 번호(10), 1개 사용
 
             Destroy(this.gameObject);
