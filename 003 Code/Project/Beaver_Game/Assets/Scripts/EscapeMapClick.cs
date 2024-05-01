@@ -1,3 +1,4 @@
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,13 @@ using UnityEngine.UI;
 
 public class EscapeMapClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    public GameObject player;
     public Transform escapeTransform;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log(gameObject.name);
-
+        player.transform.position = escapeTransform.position;
+        this.transform.parent.gameObject.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
