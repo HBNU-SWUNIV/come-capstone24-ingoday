@@ -18,6 +18,11 @@ public class SpyBeaverAction : MonoBehaviour
     public GameWinManager gameWinManager;
     public Transform towerParentTransfotm;
 
+    private bool spyBeaverEscape = false;
+    public bool useEmergencyEscape = false;
+    public GameObject escapePrisonButton;
+
+
     [SerializeField]
     private float decreaseTime = 30.0f;
 
@@ -87,6 +92,10 @@ public class SpyBeaverAction : MonoBehaviour
 
     void Update()
     {
-        
+        if (!spyBeaverEscape && !useEmergencyEscape && timerManager.GetNowTime() <= 120.0f)
+        {
+            spyBeaverEscape = true;
+            escapePrisonButton.SetActive(true);
+        }
     }
 }

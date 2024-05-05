@@ -10,9 +10,11 @@ public class EscapeMapClick : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public GameObject player;
     public Transform escapeTransform;
 
+
     public void OnPointerClick(PointerEventData eventData)
     {
         player.transform.position = escapeTransform.position;
+        this.gameObject.GetComponent<Image>().color = Color.white;
         this.transform.parent.gameObject.SetActive(false);
     }
 

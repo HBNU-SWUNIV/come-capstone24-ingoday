@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5370659170453520118}
   - component: {fileID: 9172403719032227683}
   m_Layer: 0
-  m_Name: 08_bodyItem1
+  m_Name: 19_bodyItem1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a16f9cc2048cc6a4a810e75bd8ce6284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemIndexNumber: 8
+  itemIndexNumber: 19
   itemCategory: 3
   requiredResourceOfItem: 01000000010000000100000000000000
   itemName: Body item 1

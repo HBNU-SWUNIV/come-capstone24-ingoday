@@ -10,6 +10,8 @@ public class InventorySlotGroup : MonoBehaviour
     public int[] resourceCountInts = new int[4] { 0, 0, 0, 0 };
     public TMP_Text[] resourceCountTexts = new TMP_Text[4];
     public Button throwRopeButton = null;
+    public GameObject escapePrisonButton = null;
+    public SpyBoolManager spyBoolManager = null;
 
     public void ShowResourceText()
     {
@@ -59,10 +61,11 @@ public class InventorySlotGroup : MonoBehaviour
     public void UseItem(int itemIndexNum, int useItemCount) // 하나의 도구를 인벤토리 전체를 살펴서 쓰는 방식
     {
         int remainResourceCount = useItemCount;
-        int ropeIndexNum = 10;  // 만약 루프의 인덱스 넘버가 바뀌면 이 숫자 바꿔주기
+        int ropeIndexNum = 4;   // 만약 루프의 인덱스 넘버가 바뀌면 이 숫자 바꿔주기
+        int keyIndexNum = 5;    // 만약 탈출키의 인덱스 넘버가 바뀌면 이 숫자 바꿔주기
         bool haveRope = false;
+        bool haveKey = false;
 
-        Debug.Log("00000");
 
         for (int i = 0; i < itemSlots.Count; i++)
         {
@@ -71,35 +74,29 @@ public class InventorySlotGroup : MonoBehaviour
             {
                 GameObject childItem = itemSlots[i].gameObject.transform.GetChild(0).gameObject;
 
-                Debug.Log("000");
-
                 if (childItem.GetComponent<ItemCount>().count < remainResourceCount)    // 현재 슬롯의 아이템 수가 사용한 아이템 수보다 적으면
                 {
-                    Debug.Log("111");
-
                     remainResourceCount -= childItem.GetComponent<ItemCount>().count;
                     Destroy(childItem);
                 }
                 else    // 현재 슬롯의 아이템 수가 사용한 아이템 수보다 많거나 같으면
                 {
-                    Debug.Log("222");
-
                     childItem.GetComponent<ItemCount>().ShowItemCount(-remainResourceCount);
                     remainResourceCount = 0;
 
                     if (childItem.GetComponent<ItemCount>().count <= 0) // 슬롯의 아이템 수가 사용한 아이템 수와 같은 경우에만 인벤토리에서 삭제
                     {
-                        Debug.Log("333");
-
                         Destroy(childItem);
                     }
                     else if (itemIndexNum == ropeIndexNum)
                     {
-                        Debug.Log("444");
-
                         haveRope = true;
                     }
-                    
+                    else if (itemIndexNum == keyIndexNum)
+                    {
+                        haveKey = true;
+                    }
+
                 }
             }
         }
@@ -107,6 +104,15 @@ public class InventorySlotGroup : MonoBehaviour
         if (throwRopeButton != null && itemIndexNum == ropeIndexNum && !haveRope)  // 버튼 비활성화
         {
             throwRopeButton.gameObject.SetActive(false);
+        }
+        else if (escapePrisonButton != null && itemIndexNum == keyIndexNum && !haveKey)
+        {
+            if (spyBoolManager.isSpy() && !spyBoolManager.gameObject.GetComponent<SpyBeaverAction>().useEmergencyEscape)
+            {
+
+            }
+            else
+                escapePrisonButton.SetActive(false);
         }
 
     }

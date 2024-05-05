@@ -8,6 +8,8 @@ public class ItemCollisionManager : MonoBehaviour
 {
     private InventorySlotGroup inventorySlotGroup;
     private Button throwRopeButton;
+    [SerializeField]
+    private Button escapePrisonButton;
     private GameObject itemImage;
     private ItemIndex itemIndex;
     public int itemCount = 1;
@@ -32,6 +34,12 @@ public class ItemCollisionManager : MonoBehaviour
                 {
                     inventorySlotGroup.itemSlots[i].gameObject.transform.GetChild(0).gameObject.GetComponent<ItemCount>().ShowItemCount(itemCount); // 아이템 수 더하기
                     addInventory = true;    // 아이템을 더했다는 체크
+
+                    if (this.gameObject.GetComponent<ItemInfo>().itemName == "Key")
+                    {
+                        collision.gameObject.GetComponent<PrisonManager>().keyCount++;
+                    }
+
                     break;
                 }
             }
@@ -54,9 +62,14 @@ public class ItemCollisionManager : MonoBehaviour
             newItemImage.GetComponent<ItemCount>().SetCountText();  // 생성한 아이템의 수를 보여줄 TMP 연결
             newItemImage.GetComponent<ItemCount>().ShowItemCount(itemCount);    // 연결한 TMP를 통해 생성한 아이템의 수 보여주기
 
-            if (this.gameObject.transform.GetComponent<ItemInfo>().itemName == "Rope")
+            if (this.gameObject.GetComponent<ItemInfo>().itemName == "Rope")
             {
                 throwRopeButton.gameObject.SetActive(true);
+            }
+            else if (this.gameObject.GetComponent<ItemInfo>().itemName == "Key")
+            {
+                collision.gameObject.GetComponent<PrisonManager>().keyCount++;
+                escapePrisonButton.gameObject.SetActive(true);
             }
         }
 
@@ -73,7 +86,16 @@ public class ItemCollisionManager : MonoBehaviour
         inventorySlotGroup = GameObject.Find("InventorySlots").GetComponent<InventorySlotGroup>();
         itemImage = GameObject.Find("ItemImage").gameObject;
         itemIndex = GameObject.Find("ItemManager").GetComponent<ItemIndex>();
-        throwRopeButton = GameObject.Find("ThrowRopeLine").GetComponent<RopeManager>().throwRopeButton;
+
+        if (this.gameObject.GetComponent<ItemInfo>().itemName == "Rope")
+        {
+            throwRopeButton = GameObject.Find("ThrowRopeLine").GetComponent<RopeManager>().throwRopeButton;
+        }
+        else if (this.gameObject.GetComponent<ItemInfo>().itemName == "Key")
+        {
+            Debug.Log("11111");
+            escapePrisonButton = GameObject.Find("PlayerBeaver").GetComponent<PrisonManager>().escapePrisonButton;
+        }
 
     }
 

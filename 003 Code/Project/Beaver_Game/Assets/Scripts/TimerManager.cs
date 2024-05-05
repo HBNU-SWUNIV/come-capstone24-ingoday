@@ -15,6 +15,11 @@ public class TimerManager : MonoBehaviour
     private TowerInfo nowTower;
     public GameWinManager gameWinManager;
 
+    public float GetNowTime()
+    {
+        return timer;
+    }
+
     public void SetTimeSpeedRecoverTimer(float towerTime)
     {
         timeSpeedRecoverTimer = towerTime;
@@ -80,5 +85,6 @@ public class TimerManager : MonoBehaviour
                 RadioComunicationTime(1.0f, nowTower);
             }
         }
+
     }
 }

@@ -7,7 +7,7 @@ public class RopeCollision : MonoBehaviour
     private Transform prisonTransform;
     public Vector3 direction = Vector3.zero;
     private InventorySlotGroup inventorySlotGroup;
-    public int ropeIndexNum = 10;   // 로프의 아이템 번호가 바뀌면 바꿔줘야 함
+    public int ropeIndexNum = 4;   // 로프의 아이템 번호가 바뀌면 바꿔줘야 함
     public float lifeTime = 5.0f;
 
     public void SetDirection(Vector3 dir)

@@ -15,7 +15,9 @@ public class PrisonManager : MonoBehaviour
     public RectTransform mapImage;
     public bool escapePosSelect = false;
     public TMP_Text prisonTimerText;
-
+    public int keyCount = 0;
+    public InventorySlotGroup inventorySlotGroup;
+    public Button escapePrisonButton;
 
     public void ShowPrisonTimer()
     {
@@ -33,9 +35,35 @@ public class PrisonManager : MonoBehaviour
         inPrison = true;
     }
 
+    public void EscapePrison(bool clickButton)
+    {
+        if (!inPrison)
+            return;
+
+        inPrison = false;
+        if (clickButton)
+        {
+            if (keyCount <= 0)
+            {
+                this.gameObject.GetComponent<SpyBeaverAction>().useEmergencyEscape = true;
+                escapePrisonButton.gameObject.SetActive(false);
+                Debug.Log(this.gameObject.name + " 스파이가 감옥에서 탈출했습니다.");
+                this.gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+            }
+            else
+            {
+                inventorySlotGroup.UseItem(5, 1);
+            }
+            keyCount--;
+        }
+
+        mapImage.gameObject.SetActive(true);
+        prisonTimerText.gameObject.SetActive(false);
+    }
+
     void Start()
     {
-        
+        escapePrisonButton.gameObject.SetActive(false);
     }
 
     void Update()
@@ -47,9 +75,7 @@ public class PrisonManager : MonoBehaviour
 
             if (prisonTimer <= 0.0f)
             {
-                mapImage.gameObject.SetActive(true);
-                prisonTimerText.gameObject.SetActive(false);
-                inPrison = false;
+                EscapePrison(false);
             }
         }
 
