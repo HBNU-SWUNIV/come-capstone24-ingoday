@@ -10,10 +10,12 @@ public class RopeCollision : MonoBehaviour
     public int ropeIndexNum = 4;   // 로프의 아이템 번호가 바뀌면 바꿔줘야 함
     public float lifeTime = 5.0f;
 
+    /*
     public void SetDirection(Vector3 dir)
     {
         direction = dir;
     }
+    */
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -38,6 +40,8 @@ public class RopeCollision : MonoBehaviour
 
     void Update()
     {
-        this.transform.Translate(direction * Time.deltaTime * 5.0f);
+        //this.transform.Translate(direction * Time.deltaTime * 5.0f);
+
+        this.transform.Translate(Vector3.left * Time.deltaTime * 5.0f);
     }
 }

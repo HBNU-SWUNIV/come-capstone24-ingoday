@@ -37,10 +37,15 @@ public class RopeManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 GameObject newRope = Instantiate(ropePrefab);
-                newRope.transform.position = this.transform.position + rot.normalized * 1.5f;   // 1.5는 자기 자신에게 맞지 않게 하려고
-                newRope.GetComponent<RopeCollision>().SetDirection(rot.normalized);
+                newRope.transform.position = this.transform.position + rot.normalized * 3.5f;   // 1.5는 자기 자신에게 맞지 않게 하려고
+                //newRope.GetComponent<RopeCollision>().SetDirection(rot.normalized);
+                newRope.transform.localRotation = Quaternion.Euler(0, 0, angle + 180.0f);
 
-                Debug.Log(rot);
+                if (this.transform.localRotation.eulerAngles.z < 90.0f || this.transform.localRotation.eulerAngles.z > 270.0f)
+                {
+                    newRope.transform.localScale = new Vector3(0.25f, -0.2f, 0.0f);
+                }
+
                 transform.GetChild(0).gameObject.SetActive(false);
             }
             

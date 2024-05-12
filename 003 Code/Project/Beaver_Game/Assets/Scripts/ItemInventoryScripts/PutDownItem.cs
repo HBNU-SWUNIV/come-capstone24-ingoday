@@ -9,6 +9,7 @@ public class PutDownItem : MonoBehaviour, IDropHandler
     public GameObject copyItemImage;
 
 
+
     public void OnDrop(PointerEventData eventData)
     {
         GameObject newResource = Instantiate(eventData.pointerDrag.GetComponent<ItemDrag>().itemPrefab.gameObject);
@@ -16,6 +17,27 @@ public class PutDownItem : MonoBehaviour, IDropHandler
         newResource.GetComponent<ItemCollisionManager>().itemCount = eventData.pointerDrag.GetComponent<ItemCount>().count;
 
         copyItemImage.transform.position = new Vector3(2100.0f, 1200.0f, 0.0f);
+
+
+
+
+        if (eventData.pointerDrag.gameObject.GetComponent<ItemDrag>().itemIndexNumber == 4) // 로프 내려놓을때 0개면 버튼 비활성화 하기
+        {
+            copyItemImage.transform.parent.gameObject.GetComponent<InventorySlotGroup>().UseItem(4, 0);
+        }
+        else if (eventData.pointerDrag.gameObject.GetComponent<ItemDrag>().itemIndexNumber == 5)    // 키 내려놓을때 0개면 버튼 비활성화 하기
+        {
+            playerPos.gameObject.GetComponent<PrisonManager>().keyCount -= eventData.pointerDrag.GetComponent<ItemCount>().count;
+            if (playerPos.gameObject.GetComponent<PrisonManager>().keyCount <= 0)
+            {
+                playerPos.gameObject.GetComponent<PrisonManager>().escapePrisonButton.gameObject.SetActive(false);
+            }
+        }
+
+        if (eventData.pointerDrag.gameObject.GetComponent<ItemDrag>().normalParent.gameObject.GetComponent<ItemSlot>().equipSlotType > 0)
+        {
+            Destroy(eventData.pointerDrag.gameObject.GetComponent<ItemDrag>().normalParent.gameObject.GetComponent<ItemSlot>().equipItem);
+        }
 
         if (eventData.pointerDrag.gameObject.GetComponent<ItemDrag>().keepItemCount > 0)    // 만약 수를 나눈 상태라면
         {

@@ -17,9 +17,12 @@ public class ProductionManager : MonoBehaviour
         nowItemNum = itemNumber;
 
         selectedItemGameObject.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Image>().sprite = itemIndex.items[itemNumber].GetComponent<SpriteRenderer>().sprite;
+        selectedItemGameObject.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Image>().preserveAspect = true;
+        /*
         selectedItemGameObject.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Image>().color = itemIndex.items[itemNumber].GetComponent<SpriteRenderer>().color; // 나중에 아이템 그림 완성되고 나서는 빼기
         selectedItemGameObject.transform.GetChild(0).GetChild(0).transform.localRotation = itemIndex.items[itemNumber].gameObject.transform.localRotation;  // 나중에 아이템 그림 완성되고 나서는 빼기
         selectedItemGameObject.transform.GetChild(0).GetChild(0).transform.localScale = itemIndex.items[itemNumber].gameObject.transform.localScale;    // 나중에 아이템 그림 완성되고 나서는 빼기
+        */
         selectedItemGameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<TMP_Text>().text = itemIndex.items[itemNumber].itemName;
         selectedItemGameObject.transform.GetChild(0).GetChild(2).gameObject.GetComponent<TMP_Text>().text = itemIndex.items[itemNumber].itemInformation;
 

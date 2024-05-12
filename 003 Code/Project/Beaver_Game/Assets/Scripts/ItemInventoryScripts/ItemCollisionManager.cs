@@ -62,6 +62,7 @@ public class ItemCollisionManager : MonoBehaviour
             newItemImage.GetComponent<ItemCount>().SetCountText();  // 생성한 아이템의 수를 보여줄 TMP 연결
             newItemImage.GetComponent<ItemCount>().ShowItemCount(itemCount);    // 연결한 TMP를 통해 생성한 아이템의 수 보여주기
 
+
             if (this.gameObject.GetComponent<ItemInfo>().itemName == "Rope")
             {
                 throwRopeButton.gameObject.SetActive(true);

@@ -30,9 +30,12 @@ public class ItemDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        copyItemImage.sprite = itemPrefab.sprite;   // 나중에 아이템 그림 완성되고 나서는 빼기
+        
+        copyItemImage.sprite = itemPrefab.sprite;
+        /*
         copyItemImage.transform.localRotation = itemPrefab.transform.localRotation; // 나중에 아이템 그림 완성되고 나서는 빼기
         copyItemImage.transform.localScale = itemPrefab.transform.localScale; // 나중에 아이템 그림 완성되고 나서는 빼기
+        */
         copyItemImage.gameObject.transform.position = normalPos;
 
         Color copyColor = itemPrefab.color;
@@ -104,9 +107,11 @@ public class ItemDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     {
         itemPrefab = prefabSprite;
         this.GetComponent<Image>().sprite = itemPrefab.sprite;
+        /*
         this.GetComponent<Image>().color = itemPrefab.color;
         this.transform.localRotation = itemPrefab.transform.localRotation;
         this.transform.localScale = itemPrefab.transform.localScale;
+        */
         itemIndexNumber = itemPrefab.gameObject.GetComponent<ItemInfo>().GetItemIndexNumber();
     }
 
