@@ -60,6 +60,14 @@ MonoBehaviour:
   - SetDamCreateResource
   - DamBuildComplete
   - CaughtByRope
+  - SetNight
+  - OnClickGameStartButton
+  - SetStartSetting
+  - SetSpyBool
+  - CallSetSpyBool
+  - TowerCountCheck
+  - TimeCheck
+  - SpyEmergencyEscape
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

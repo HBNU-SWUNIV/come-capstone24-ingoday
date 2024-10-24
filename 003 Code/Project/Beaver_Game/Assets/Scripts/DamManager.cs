@@ -28,7 +28,7 @@ public class DamManager : MonoBehaviourPunCallbacks
     public float accelerate = 0.0f; // 일반 비버의 가속 속도
     public GameWinManager gameWinManager;   // 댐 모두 건설 시 승리하게 하도록
 
-    private float DameGaugeSpeedRate = 2.0f;    // 댐 게이지차는 속도 배율,1일때 게이지 다 차는데 100초, 2일때 50초 
+    public float dameGaugeSpeedRate = 1.0f;    // 댐 게이지차는 속도 배율, 작업모 착용으로 변경
 
 
     [PunRPC]
@@ -36,7 +36,7 @@ public class DamManager : MonoBehaviourPunCallbacks
     {
         if (turnOn)
         {
-            obstract = -0.015f * DameGaugeSpeedRate; // 방해 시 감속 속도
+            obstract = -0.02f * dameGaugeSpeedRate; // 방해 시 감속 속도
         }
         else
         {
@@ -49,11 +49,13 @@ public class DamManager : MonoBehaviourPunCallbacks
     {
         if (turnOn)
         {
-            accelerate = 0.01f * DameGaugeSpeedRate; // 가속 시 가속 속도
+            accelerate = 0.01f * dameGaugeSpeedRate; // 가속 시 가속 속도
+            GetComponent<AudioSource>().Play();
         }
         else
         {
             accelerate = 0.0f;
+            GetComponent<AudioSource>().Stop();
         }
     }
 
@@ -119,12 +121,28 @@ public class DamManager : MonoBehaviourPunCallbacks
         requiredResources[3] = totalDamRequiredResource - randomBoundary2;
     }
 
+    /*
     public override void OnJoinedRoom()
     {
-        /*
-        if (!PhotonNetwork.IsMasterClient)  // 나중에 동시입장으로 바꾸면 그때 이거 켜기
-            return;
-        */
+        
+        //if (!PhotonNetwork.IsMasterClient)  // 나중에 동시입장으로 바꾸면 그때 이거 켜기
+        //    return;
+        
+        List<int> randomBoundary = new List<int>(); // 댐 건설하는데 필요한 자원 랜덤으로 정하기
+
+        for (int i = 0; i < 3; i++)
+        {
+            randomBoundary.Add(Random.Range(0, totalDamRequiredResource + 1));
+        }
+        randomBoundary.Sort();
+
+        this.gameObject.GetPhotonView().RPC("SetDamCreateResource", RpcTarget.All, randomBoundary[0], randomBoundary[1], randomBoundary[2]);
+    }
+    */
+
+    public void DamRandomPrice()
+    {
+
         List<int> randomBoundary = new List<int>(); // 댐 건설하는데 필요한 자원 랜덤으로 정하기
 
         for (int i = 0; i < 3; i++)
@@ -155,7 +173,7 @@ public class DamManager : MonoBehaviourPunCallbacks
         if (buildNow)
         {
             buildGauge.transform.position = Camera.main.WorldToScreenPoint(new Vector3(this.transform.position.x, this.transform.position.y + gaugePlusYPos, 0.0f));    // 게이지 위치 설정(UI라서)
-            buildGauge.transform.GetChild(2).gameObject.GetComponent<Image>().fillAmount += Time.deltaTime * (0.01f * DameGaugeSpeedRate + accelerate + obstract); // 현재는 50초, 수치 조정 가능
+            buildGauge.transform.GetChild(2).gameObject.GetComponent<Image>().fillAmount += Time.deltaTime * (0.01f + accelerate + obstract); // 현재는 100초, 수치 조정 가능
 
 
             float constructFillAmount = buildGauge.transform.GetChild(2).gameObject.GetComponent<Image>().fillAmount;

@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -21,7 +22,7 @@ public class PrisonManager : MonoBehaviour
     public InventorySlotGroup inventorySlotGroup;   // 인벤토리(열쇠 사용시)
     public Button escapePrisonButton;   // 탈출 버튼
     private Transform prisonTransform;  // 감옥 위치
-    private NavMeshAgent navMeshAgent;
+    //private NavMeshAgent navMeshAgent;
 
     public void ShowPrisonTimer()   // 감옥 타이머 보여주기
     {
@@ -34,11 +35,17 @@ public class PrisonManager : MonoBehaviour
     [PunRPC]
     public void CaughtByRope()  // 로프에 잡혔을 때
     {
+        /*
         if (navMeshAgent == null || prisonTransform == null)
             return;
+        */
+        //navMeshAgent.Warp(prisonTransform.position);
 
-            //this.gameObject.transform.position = prisonTransform.position; // 맞은 플레리어를 감옥으로 위프
-        navMeshAgent.Warp(prisonTransform.position);
+        if (!GetComponent<PhotonView>().IsMine)
+            return;
+
+        this.gameObject.transform.position = prisonTransform.position; // 맞은 플레리어를 감옥으로 위프
+
         //prisonTimerText.gameObject.SetActive(true);
         caughtCount++;  // 잡힌 횟수 증가
         prisonTimer = inPrisonTime + (caughtCount - 1) * 10.0f; // 잡힌 횟수에 따른 투옥 시간 설정
@@ -57,12 +64,15 @@ public class PrisonManager : MonoBehaviour
             {
                 this.gameObject.GetComponent<SpyBeaverAction>().useEmergencyEscape = true;
                 //escapePrisonButton.gameObject.SetActive(false);
-                escapePrisonButton.enabled = false;
-                Color escapeButtonColor = escapePrisonButton.GetComponent<Image>().color;
-                escapeButtonColor.a = 0.5f;
-                escapePrisonButton.GetComponent<Image>().color = escapeButtonColor;
+                escapePrisonButton.interactable = false;
+                
+                //Color escapeButtonColor = escapePrisonButton.GetComponent<Image>().color;
+                //escapeButtonColor.a = 0.5f;
+                //escapePrisonButton.GetComponent<Image>().color = escapeButtonColor;
                 Debug.Log(this.gameObject.name + " 스파이가 감옥에서 탈출했습니다.");
                 this.gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+
+                this.gameObject.GetPhotonView().RPC("SpyEmergencyEscape", RpcTarget.All, this.gameObject.GetPhotonView().ViewID);
             }
             else    // 열쇠로 탈출
             {
@@ -78,6 +88,14 @@ public class PrisonManager : MonoBehaviour
         prisonTimerText.text = "";
     }
 
+    [PunRPC]
+    public void SpyEmergencyEscape(int ViewID)
+    {
+        Color spyColor = new Color(1.0f, 0.75f, 0.75f);
+        PhotonView.Find(ViewID).gameObject.GetComponent<SpriteRenderer>().color = spyColor;
+
+    }
+
     void Start()
     {
         if (!GetComponent<PhotonView>().IsMine)
@@ -91,8 +109,8 @@ public class PrisonManager : MonoBehaviour
         escapePrisonButton = GameObject.Find("EscapePrisonButton").gameObject.GetComponent<Button>();
         escapePrisonButton.onClick.AddListener(() => EscapePrison(true));
         //escapePrisonButton.gameObject.SetActive(false);
-        escapePrisonButton.enabled = false;
-        navMeshAgent = this.gameObject.GetComponent<NavMeshAgent>();
+        escapePrisonButton.interactable = false;
+        //navMeshAgent = this.gameObject.GetComponent<NavMeshAgent>();
     }
 
     void Update()

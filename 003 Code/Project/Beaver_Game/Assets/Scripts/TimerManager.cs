@@ -4,12 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class TimerManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField]
-    private float timer = 60.0f * 15.0f;   // 게임 타이머, 15분
+    public float timeSetting;
+    private float timer = 60.0f * 1.0f + 5.0f;   // 게임 타이머, 15분
     private TMP_Text timerText; // 타이머 텍스트
     private float timeSpeed = 1.0f;    // 타이머 속도(스파이의 통신에 의해 변화)
     private bool basicTimeSpeedBool = true; // 타이머 속도 변화에 사용(스파이의 통신에 의해 변화)
@@ -18,6 +19,33 @@ public class TimerManager : MonoBehaviourPunCallbacks
     public GameWinManager gameWinManager;   // 시간 다 되면 게임 종료
 
     public PhotonView timerPhotonView;
+
+    public GameObject nightLight;
+    public Light2D globalLight;
+    private Color nightColor;
+    bool isNight = false;
+    public GetResourceScrollbar resourceScrollbar;
+
+    private bool timerOn = false;
+
+    public AudioClip nightBGM;
+    public AudioSource cameraAudio;
+
+    public void SetTimerOn()
+    {
+        timerOn = true;
+    }
+
+    [PunRPC]
+    public void SetNight()
+    {
+        globalLight.color = nightColor;
+        nightLight.SetActive(true);
+        nightLight.GetComponent<Light2D>().intensity = 1.5f;
+        resourceScrollbar.scrollSpeed = 1.0f;
+        cameraAudio.clip = nightBGM;
+        cameraAudio.Play();
+    }
 
     public float GetNowTime()   // 현재 시간 정보
     {
@@ -70,13 +98,15 @@ public class TimerManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        timer = timeSetting;
         timerText = this.GetComponent<TMP_Text>();
         timerPhotonView = this.GetComponent<PhotonView>();
+        nightColor = new Color(0.03125f, 0.03125f, 0.03125f);
     }
 
     void Update()
     {
-        if (!PhotonNetwork.IsMasterClient)
+        if (!PhotonNetwork.IsMasterClient || !timerOn)
             return;
 
         timer -= timeSpeed * Time.deltaTime;    // 타이머 시간 흐름
@@ -85,9 +115,18 @@ public class TimerManager : MonoBehaviourPunCallbacks
 
         if (timer <= 0) // 시간 다 되면 게임 종료
         {
+            timerOn = false;
             timer = 0.0f;
             ShowTimer(timer);
-            gameWinManager.TimeCheck();
+
+            //gameWinManager.TimeCheck();
+            gameWinManager.gameObject.GetPhotonView().RPC("TimeCheck", RpcTarget.All);
+        }
+        else if (timer <= timeSetting / 3.0f && !isNight)
+        {
+            isNight = true;
+            timerPhotonView.RPC("SetNight", RpcTarget.All);
+            //SetNight();
         }
 
         if (!basicTimeSpeedBool && nowTower.remainComunicationTime >= 0.0f) // 통신 중일 경우
